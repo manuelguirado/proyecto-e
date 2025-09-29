@@ -13,3 +13,96 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+model User {
+  id    String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  Direction Directions? @relation(fields: [city, state, country, postalCode, street], references: [City, State, Country, PostalCode, Street])
+  phone     String
+  password  String?
+  OauthProvider String?
+  OauthId      String?
+  product      Product? @relation(fields: [productId], references: [id])
+  productId    String?
+  city String?
+  state String?
+  country String?
+  postalCode String?
+  street String?  
+  orders orders[]  
+  reviews reviews[]
+  cart cart[]
+  bank_account  String
+  bank_name    String
+}
+model Product {
+  id         String   @id @default(cuid())
+  title       String
+  category    String
+  stock       Int
+  manufacturer manufacturer? @relation(fields: [manufacturerId], references: [id])
+  description String?
+  price       Float
+  image       String?
+  manufacturerId String?
+  manufacturerName String?
+
+  User User[]
+
+  categories categories[]
+
+  orders orders[]
+
+  reviews reviews[]
+
+  cart cart[]
+}
+model Directions{
+  City String
+  State String
+  Country String
+  PostalCode String
+  Street String
+  users User[]
+
+  @@id([City, State, Country, PostalCode, Street])
+}
+model manufacturer{
+  id String @id @default(cuid())
+  name String
+  products Product[]
+}
+model categories{
+  id String @id @default(cuid())
+  name String
+  products Product[] 
+}
+model orders {
+  id String @id @default(cuid())
+  user User @relation(fields: [userId], references: [id])
+  userId String
+  product Product @relation(fields: [productId], references: [id])
+  productId String
+  quantity Int
+  totalPrice Float
+  orderDate DateTime @default(now())
+}
+model reviews {
+  id String @id @default(cuid())
+  user User @relation(fields: [userId], references: [id])
+  userId String
+  product Product @relation(fields: [productId], references: [id])
+  productId String
+  rating Int
+  comment String?
+  reviewDate DateTime @default(now())
+}
+model cart{
+  id String @id @default(cuid())
+  user User @relation(fields: [userId], references: [id])
+  userId String
+  product Product @relation(fields: [productId], references: [id])
+  productId String
+  quantity Int
+  addedDate DateTime @default(now())
+}
