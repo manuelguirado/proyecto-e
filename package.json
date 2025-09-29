@@ -3,14 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "dev": "next dev",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "test": "jest"
   },
   "dependencies": {
     "@prisma/client": "^6.16.2",
+    "@prisma/config": "^6.16.2",
     "@prisma/extension-accelerate": "^2.0.2",
     "bcryptjs": "^3.0.2",
     "dotenv": "^17.2.2",
