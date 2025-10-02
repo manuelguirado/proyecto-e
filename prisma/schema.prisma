@@ -18,7 +18,7 @@ model User {
   email     String   @unique
   name      String?
   Direction Directions? @relation(fields: [city, state, country, postalCode, street], references: [City, State, Country, PostalCode, Street])
-  phone     String
+  phone     String?
   password  String?
   OauthProvider String?
   OauthId      String?
@@ -32,8 +32,8 @@ model User {
   orders orders[]  
   reviews reviews[]
   cart cart[]
-  bank_account  String
-  bank_name    String
+  bank_account  String?
+  bank_name    String?
 }
 model Product {
   id         String   @id @default(cuid())
@@ -85,6 +85,7 @@ model orders {
   productId String
   quantity Int
   totalPrice Float
+  status String @default("pending")
   orderDate DateTime @default(now())
 }
 model reviews {
